@@ -25,6 +25,7 @@
         <springdoc.version>2.5.0</springdoc.version>
         <testcontainers.version>1.19.8</testcontainers.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <hypersistence-utils.version>3.7.3</hypersistence-utils.version>
     </properties>
 
     <dependencies>
@@ -86,6 +87,13 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${springdoc.version}</version>
+        </dependency>
+
+        <!-- PostgreSQL array type support for Hibernate 6 -->
+        <dependency>
+            <groupId>io.hypersistence</groupId>
+            <artifactId>hypersistence-utils-hibernate-63</artifactId>
+            <version>${hypersistence-utils.version}</version>
         </dependency>
 
         <!-- Utilities -->
