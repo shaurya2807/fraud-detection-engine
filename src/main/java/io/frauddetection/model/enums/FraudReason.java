@@ -1,4 +1,4 @@
-package com.shaurya.frauddetection.model.enums;
+package io.frauddetection.model.enums;
 
 public enum FraudReason {
     NONE,

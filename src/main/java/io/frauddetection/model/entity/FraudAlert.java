@@ -1,6 +1,6 @@
-package com.shaurya.frauddetection.model.entity;
+package io.frauddetection.model.entity;
 
-import com.shaurya.frauddetection.model.enums.FraudReason;
+import io.frauddetection.model.enums.FraudReason;
 import io.hypersistence.utils.hibernate.type.array.ListArrayType;
 import jakarta.persistence.*;
 import lombok.*;

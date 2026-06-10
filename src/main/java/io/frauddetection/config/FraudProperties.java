@@ -1,4 +1,4 @@
-package com.shaurya.frauddetection.config;
+package io.frauddetection.config;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

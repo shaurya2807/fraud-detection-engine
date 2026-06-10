@@ -1,4 +1,4 @@
-package com.shaurya.frauddetection;
+package io.frauddetection;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

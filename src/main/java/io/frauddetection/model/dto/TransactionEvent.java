@@ -1,4 +1,4 @@
-package com.shaurya.frauddetection.model.dto;
+package io.frauddetection.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.DecimalMin;

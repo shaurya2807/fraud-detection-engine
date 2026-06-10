@@ -1,4 +1,4 @@
-package com.shaurya.frauddetection;
+package io.frauddetection;
 
 import org.junit.jupiter.api.Test;
 

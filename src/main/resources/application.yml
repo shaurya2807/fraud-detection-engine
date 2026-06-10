@@ -67,9 +67,9 @@ spring:
       enable-auto-commit: false
       max-poll-records: 100
       properties:
-        spring.json.trusted.packages: "com.shaurya.frauddetection.model.dto"
+        spring.json.trusted.packages: "io.frauddetection.model.dto"
         spring.json.use.type.headers: false
-        spring.json.value.default.type: com.shaurya.frauddetection.model.dto.TransactionEvent
+        spring.json.value.default.type: io.frauddetection.model.dto.TransactionEvent
         isolation.level: read_committed
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -146,7 +146,7 @@ fraud:
 logging:
   level:
     root: INFO
-    com.shaurya.frauddetection: DEBUG
+    io.frauddetection: DEBUG
     org.apache.kafka: WARN
     org.springframework.kafka: INFO
   pattern:
