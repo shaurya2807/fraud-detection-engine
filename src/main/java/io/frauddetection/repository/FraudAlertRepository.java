@@ -15,4 +15,6 @@ public interface FraudAlertRepository extends JpaRepository<FraudAlert, UUID> {
     Page<FraudAlert> findByAccountId(String accountId, Pageable pageable);
 
     Optional<FraudAlert> findByTransactionId(String transactionId);
+
+    long countByAcknowledgedFalse();
 }

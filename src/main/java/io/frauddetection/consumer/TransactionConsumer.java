@@ -8,7 +8,9 @@ import io.frauddetection.model.entity.Transaction;
 import io.frauddetection.producer.FraudAlertProducer;
 import io.frauddetection.repository.FraudAlertRepository;
 import io.frauddetection.repository.TransactionRepository;
+import io.frauddetection.service.FraudMetricsService;
 import io.frauddetection.service.RuleEngine;
+import io.micrometer.core.instrument.Timer;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +44,7 @@ public class TransactionConsumer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
     private final FraudProperties          fraudProperties;
     private final Validator                validator;
+    private final FraudMetricsService      fraudMetricsService;
 
     @KafkaListener(
             topics              = "${fraud.kafka.topics.transactions}",
@@ -66,6 +69,8 @@ public class TransactionConsumer {
         String processedKey  = PROCESSED_KEY_PREFIX + transactionId;
 
         try {
+            Timer.Sample timerSample = fraudMetricsService.startTimer();
+
             // ── Idempotency ────────────────────────────────────────────────
             if (Boolean.TRUE.equals(redisTemplate.hasKey(processedKey))) {
                 log.debug("Duplicate transaction={}, skipping", transactionId);
@@ -84,6 +89,8 @@ public class TransactionConsumer {
 
             // ── Rule evaluation ────────────────────────────────────────────
             FraudEvaluationResult result = ruleEngine.evaluate(event);
+            fraudMetricsService.recordOutcome(result.getFraudStatus());
+            result.getTriggeredRules().forEach(fraudMetricsService::recordRuleTriggered);
 
             // ── Persistence ────────────────────────────────────────────────
             transactionRepository.save(buildTransaction(event, result));
@@ -99,6 +106,7 @@ public class TransactionConsumer {
             // causes safe re-delivery (transaction_id unique constraint will
             // surface on retry, routing the duplicate to the DLQ).
             redisTemplate.opsForValue().set(processedKey, "1", PROCESSED_TTL_HOURS, TimeUnit.HOURS);
+            fraudMetricsService.stopTimer(timerSample);
             ack.acknowledge();
 
             log.info("OK transaction={} account={} status={} score={} rules={}",
