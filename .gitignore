@@ -1,0 +1,53 @@
+# Claude Code internal files — never commit
+.claude/
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# IDE
+.idea/
+*.iws
+*.iml
+*.ipr
+.project
+.classpath
+.settings/
+.vscode/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Spring Boot
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environment / secrets
+.env
+.env.*
+application-local.yml
+application-secrets.yml
+secrets/
+
+# Test reports
+/test-results/
+/surefire-reports/
+
+# Docker volumes (local data)
+docker/volumes/
+postgres-data/
+redis-data/
+kafka-data/
+zookeeper-data/
