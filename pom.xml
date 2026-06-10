@@ -89,6 +89,18 @@
             <version>${springdoc.version}</version>
         </dependency>
 
+        <!-- AOP (required by Spring Retry's @Aspect-annotated configuration) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- Retry support for @Retryable -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
         <!-- Lettuce connection pool support -->
         <dependency>
             <groupId>org.apache.commons</groupId>
