@@ -73,8 +73,11 @@ public class KafkaConfig {
                 (record, ex) -> new TopicPartition(
                         fraudProperties.getKafka().getTopics().getTransactionsDlq(), -1));
 
-        // Zero retries at the framework level — the listener manages its own retry/DLQ path
-        factory.setCommonErrorHandler(new DefaultErrorHandler(recoverer, new FixedBackOff(0L, 0L)));
+        // Zero retries at the framework level; commitRecovered=true so the offset is
+        // committed (via the Acknowledgment) after the record is forwarded to the DLQ.
+        DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer, new FixedBackOff(0L, 0L));
+        errorHandler.setCommitRecovered(true);
+        factory.setCommonErrorHandler(errorHandler);
 
         return factory;
     }

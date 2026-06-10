@@ -59,10 +59,11 @@ public class TransactionConsumer {
         // The DLQ recoverer in the container factory already routed this to the DLQ topic,
         // so we just ack here to prevent stalling the partition.
         if (event == null) {
-            log.warn("Null payload — deserialization failed at topic={} partition={} offset={}, acking",
-                    record.topic(), record.partition(), record.offset());
-            ack.acknowledge();
-            return;
+            // Throwing activates DefaultErrorHandler + DeadLetterPublishingRecoverer so the
+            // original record bytes are forwarded to the DLQ and the offset committed.
+            throw new IllegalStateException(String.format(
+                    "Deserialization produced null value at topic=%s partition=%d offset=%d",
+                    record.topic(), record.partition(), record.offset()));
         }
 
         String transactionId = event.getTransactionId();
